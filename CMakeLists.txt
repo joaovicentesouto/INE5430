@@ -6,21 +6,22 @@
 cmake_minimum_required(VERSION 3.5.1)
 
 # Set project name
-project(minimax)
+project(ai)
 
 # Set project version
-set(minimax_VERSION 0.1)
+set(ai_VERSION 0.1)
 
 # Set c++14 globally
 set(CMAKE_CXX_STANDARD 14)
 
 # Set formal_languages source dir
-set(minimax_source_dir ${PROJECT_SOURCE_DIR})
+set(ai_source_dir ${PROJECT_SOURCE_DIR})
 
 ################################################################################
 # Project logic 
 ################################################################################
 
 # Add subdirectories
-add_subdirectory(minimax)
+add_subdirectory(3rdparty)
+add_subdirectory(ai)
 add_subdirectory(tests)
