@@ -1,8 +1,15 @@
 #include "Minimax.hpp"
 
-// Move::Move(size_t x, size_t y) :
-//     _x{x},
-//     _y{y}
-// {
-// }
+namespace ai
+{
 
+move_type minimax(board_type& board, move_type move, char player)
+{
+    move_type test{7, 7};
+
+    test.play(board, player);
+
+    return test;
+}
+
+}

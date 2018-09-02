@@ -1,16 +1,16 @@
 //! João Vicente Souto
 
-#ifndef MINIMAX_HPP
-#define MINIMAX_HPP
+#ifndef MOVE_HPP
+#define MOVE_HPP
 
 #include <limits>
 #include <functional>
 #include <iostream>
 
+#include "Util.hpp"
+
 namespace ai
 {
-
-using board_type = char[15][15];
 
 struct Move
 {
@@ -21,9 +21,9 @@ struct Move
     void play(board_type& board, char player);
     void unplay(board_type& board);
 
-    size_t _x, _y;
+    int _x, _y;
 };
 
 }   // namespace ai
 
-#endif // DESIMONETREE_H
+#endif // MOVE_HPP

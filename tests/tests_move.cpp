@@ -7,7 +7,7 @@
 
 using namespace ai;
 
-TEST_CASE("Move: play and unplay", "[ai][minimax]")
+TEST_CASE("Move: play and unplay", "[ai][move]")
 {
     ai::Move t{7, 7};
     ai::board_type board = { [0 ... 14] = { [0 ... 14] = ' ' } };
