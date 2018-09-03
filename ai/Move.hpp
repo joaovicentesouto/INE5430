@@ -18,11 +18,15 @@ struct Move
 
     ~Move() = default;
 
-    void play(board_type& board, char player);
-    void unplay(board_type& board);
+    void play(board_type& board, char player) const;
+    void unplay(board_type& board) const;
 
     int _x, _y;
 };
+
+using move_type = Move;
+
+move_type next_move(const move_type& move);
 
 }   // namespace ai
 

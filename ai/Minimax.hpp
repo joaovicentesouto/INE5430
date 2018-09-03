@@ -13,9 +13,9 @@
 namespace ai
 {
 
-using move_type = Move;
+// using move_type = Move;
 
-move_type minimax(board_type& board, move_type move = {-1, -1}, char player = 'p');
+move_type minimax(board_type& board, move_type move = {7, 7}, char player = 'p'); //! move => list<moves>
 
 }   // namespace ai
 

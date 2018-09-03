@@ -5,11 +5,9 @@ namespace ai
 
 move_type minimax(board_type& board, move_type move, char player)
 {
-    move_type test{7, 7};
+    move.play(board, player);
 
-    test.play(board, player);
-
-    return test;
+    return move;
 }
 
 }
