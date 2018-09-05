@@ -6,6 +6,7 @@
 #include <limits>
 #include <functional>
 #include <iostream>
+#include <limits>
 
 #include "Util.hpp"
 
@@ -16,6 +17,9 @@ namespace ai
 using board_type = char[15][15];
 using pair_played = std::pair<int,int>;
 using pair_weight = std::pair<double,double>;
+
+#define POSITIVE_INFINITE std::numeric_limits<double>::max()
+#define NEGATIVE_INFINITE -POSITIVE_INFINITE
 
 double horizontal_points(board_type board)
 {
@@ -136,8 +140,6 @@ double vertical_points(board_type board)
 
     return result;
 }
-
-#include <iostream>
 
 double diagonal_right_points(board_type board)
 {
@@ -603,14 +605,81 @@ double heuristic(board_type board)
     return utility(board) + horizontal_winner_possible(board) + vertical_winner_possible(board) + diagonal_right_winner_possible(board) + diagonal_left_winner_possible(board);
 }
 
-pair_played minimax(board_type board, int depth)
+bool is_game_over(board_type board)
 {
-    return {0,0};
+    return false;
 }
 
-pair_weight minimax(board_type board, int depht, pair_played last_played, double alpha, double beta, char player)
+
+bool is_game_over(board_type board, pair_played last_played)
 {
-    return {0,0};
+    return false;
+}
+
+double minimax(board_type board, const int depht_max, int depht, pair_played last_played, double alpha, double beta, char player)
+{
+    if (is_game_over(board, last_played))
+        return utility(board) / depht;
+
+    if (depht == depht_max)
+        return heuristic(board) / depht;
+
+    double weigth = player == 'x' ? NEGATIVE_INFINITE : POSITIVE_INFINITE;
+
+    for (int i = 0; i < 15 && alpha < beta; i++) {
+        for(int j = 0; j < 15 && alpha < beta; j++) {
+            if (board[i][j] != ' ')
+                continue;
+
+            board[i][j] = player;
+
+            double child_weight = minimax(board, depht_max, depht + 1, {i,j}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+            if (weigth < child_weight) {
+                weigth = child_weight;
+
+                if (player == 'x')
+                    alpha = child_weight;
+                else
+                    beta = child_weight;
+            }
+
+            board[i][j] = ' ';
+        }
+    }
+
+    return weigth;
+}
+
+pair_played minimax(board_type board, const int depth_max)
+{
+    if (is_game_over(board))
+        return {-1,-1};
+
+    double alpha = NEGATIVE_INFINITE;
+    double weigth = NEGATIVE_INFINITE;
+    pair_played best_played{-1, -1};
+
+    for (int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+            if (board[i][j] == ' ')
+                continue;
+
+            board[i][j] = 'x';
+
+            double child_weight = minimax(board, depth_max, 1, {i,j}, alpha, POSITIVE_INFINITE, 'o');
+
+            if (weigth < child_weight) {
+                weigth = child_weight;
+                alpha = child_weight;
+                best_played = {i, j};
+            }
+
+            board[i][j] = ' ';
+        }
+    }
+
+    return best_played;
 }
 
 }   // namespace ai
