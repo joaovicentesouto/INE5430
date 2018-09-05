@@ -371,6 +371,238 @@ double diagonal_left_points(board_type board)
     return result;
 }
 
+double utility(board_type board)
+{
+    return horizontal_points(board) + vertical_points(board) + diagonal_left_points(board) + diagonal_right_points(board);
+}
+
+double horizontal_winner_possible(board_type board)
+{
+    double result = 0;
+
+    for (int i = 0; i < 15; i++) {
+
+        for (int j = 0; j < 11; j++) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int k = j; k < j+5; k++) {
+                if (board[i][k] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[i][k];
+                    point++;
+                    continue;
+                }
+                if (board[i][k] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+
+        }
+    }
+
+    return result;
+}
+
+double vertical_winner_possible(board_type board)
+{
+    double result = 0;
+
+    for (int j = 0; j < 15; j++) {
+
+        for (int i = 0; i < 11; i++) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int k = i; k < i+5; k++) {
+                if (board[k][j] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[k][j];
+                    point++;
+                    continue;
+                }
+                if (board[k][j] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+
+        }
+    }
+
+    return result;
+}
+
+double diagonal_right_winner_possible(board_type board)
+{
+    double result = 0;
+
+    for (int k = 4; k < 15; k++) {
+
+        for (int j = 14-k, i = 0; j < 11; j++, i++) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int m = i, n = j; m < i+5; m++, n++) {
+                if (board[m][n] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[m][n];
+                    point++;
+                    continue;
+                }
+                if (board[m][n] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+        }
+    }
+
+    for (int k = 1; k < 11; k++) {
+
+        for (int i = k, j = 0; i < 11; i++, j++) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int m = i, n = j; m < i+5; m++, n++) {
+                if (board[m][n] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[m][n];
+                    point++;
+                    continue;
+                }
+                if (board[m][n] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+        }
+    }
+
+    return result;
+}
+
+double diagonal_left_winner_possible(board_type board)
+{
+    double result = 0;
+
+    for (int k = 4; k < 15; k++) {
+
+        for (int j = k, i = 0; j > 3; j--, i++) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int m = i, n = j; m < i+5; m++, n--) {
+                if (board[m][n] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[m][n];
+                    point++;
+                    continue;
+                }
+                if (board[m][n] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+        }
+    }
+
+    for (int k = 1; k < 11; k++) {
+
+        for (int i = k, j = 14; i < 11; i++, j--) {
+
+            int point = 0;
+            char current = ' ';
+
+            for (int m = i, n = j; m < i+5; m++, n--) {
+                if (board[m][n] == ' ')
+                    continue;
+                if (current == ' ') {
+                    current = board[m][n];
+                    point++;
+                    continue;
+                }
+                if (board[m][n] != current) {
+                    point = 0;
+                    break;
+                }
+                point++;
+            }
+
+            switch(point) {
+                case 1: current == 'x' ? result += 10 : result -= 10; break;
+                case 2: current == 'x' ? result += 100 : result -= 100; break;
+                case 3: current == 'x' ? result += 1000 : result -= 1000; break;
+                case 4: current == 'x' ? result += 10000 : result -= 10000; break;
+                default: break;
+            }
+        }
+    }
+
+    return result;
+}
+
+double heuristic(board_type board)
+{
+    return utility(board) + horizontal_winner_possible(board) + vertical_winner_possible(board) + diagonal_right_winner_possible(board) + diagonal_left_winner_possible(board);
+}
+
 pair_played minimax(board_type board, int depth)
 {
     return {0,0};
@@ -379,16 +611,6 @@ pair_played minimax(board_type board, int depth)
 pair_weight minimax(board_type board, int depht, pair_played last_played, double alpha, double beta, char player)
 {
     return {0,0};
-}
-
-double utility(board_type board)
-{
-    return horizontal_points(board) + vertical_points(board) + diagonal_left_points(board) + diagonal_right_points(board);
-}
-
-double heuristic(board_type board)
-{
-    return 0;
 }
 
 }   // namespace ai
