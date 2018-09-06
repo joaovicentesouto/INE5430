@@ -7,20 +7,6 @@
 
 using namespace ai;
 
-TEST_CASE("Minimax: minimax default", "[ai][minimax]")
-{
-//    ai::board_type board = { [0 ... 14] = { [0 ... 14] = ' ' } };
-
-    board_type board;
-    for(int i = 0; i < 15; i++)
-        for(int j = 0; j < 15; j++)
-            board[i][j] = ' ';
-
-    CHECK(board[2][2] == ' ');
-    minimax(board, 2);
-    CHECK(board[2][2] == ' ');
-}
-
 TEST_CASE("Minimax: minimax horizontal_points", "[ai][minimax]")
 {
     board_type board;
@@ -237,7 +223,6 @@ TEST_CASE("Minimax: minimax heuristic", "[ai][minimax]")
     CHECK(heuristic(board) == -42089);
 }
 
-
 TEST_CASE("Minimax: minimax", "[ai][minimax]")
 {
     board_type board;
@@ -245,18 +230,39 @@ TEST_CASE("Minimax: minimax", "[ai][minimax]")
         for(int j = 0; j < 15; j++)
             board[i][j] = ' ';
 
-
-    board[5][3] = 'x';
     board[5][4] = 'o';
     board[5][5] = 'o';
     board[5][6] = 'o';
     board[5][7] = 'o';
     board[5][8] = 'x';
 
-//    REQUIRE(heuristic(board) == 0);
-
-    auto x = minimax(board, 4);
+    auto x = minimax(board, 3);
 
     CHECK(x.first == 5);
     CHECK(x.second == 3);
+}
+
+TEST_CASE("Minimax: game_over", "[ai][minimax]")
+{
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    board[5][3] = 'o';
+    board[5][4] = 'o';
+    board[5][5] = 'o';
+    board[5][6] = 'o';
+
+    CHECK(!is_game_over(board));
+
+    for (int i = 3; i < 7; i++)
+        CHECK(!is_game_over(board, {5,i}));
+
+    board[5][7] = 'o';
+
+    CHECK(is_game_over(board));
+
+    for (int i = 3; i < 8; i++)
+        CHECK(is_game_over(board, {5,i}));
 }
