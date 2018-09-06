@@ -654,24 +654,72 @@ bool is_game_over(board_type board, pair_played last_played)
     return false;
 }
 
-double minimax(board_type board, const int depht_max, int depht, pair_played last_played, double alpha, double beta, char player)
+double minimax(board_type board, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player)
 {
     if (is_game_over(board, last_played))
-        return utility(board) / depht;
+        return utility(board) / depth;
 
-    if (depht == depht_max)
-        return heuristic(board) / depht;
+    if (depth == depth_max)
+        return heuristic(board) / depth;
 
     double weigth = player == 'x' ? NEGATIVE_INFINITE : POSITIVE_INFINITE;
+    double child_weight;
 
-    for (int i = 0; i < 15 && alpha < beta; i++) {
-        for(int j = 0; j < 15 && alpha < beta; j++) {
-            if (board[i][j] != ' ')
+    if (board[7][7] == ' ') {
+
+        board[7][7] = 'x';
+
+        child_weight = minimax(board, depth_max, depth + 1, {7,7}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+        std::cout << "child generated  7 7"<< " d = " << depth << std::endl;
+
+
+        if (player == 'x' && weigth < child_weight) {
+            weigth = child_weight;
+            alpha = child_weight;
+        } else if (weigth > child_weight) {
+            weigth = child_weight;
+            beta = child_weight;
+        }
+
+        board[7][7] = ' ';
+
+    }
+
+
+    for (int k = 6, t = k+3; k > -1; k--, t++) {
+        for (int j = k; j < t; j++) {
+
+            if (board[k][j] == ' ') {
+
+                board[k][j] = 'x';
+
+                child_weight = minimax(board, depth_max, depth + 1, {k,j}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+                std::cout << "child generated " << k << " " << j<< " d = " << depth << std::endl;
+
+
+                if (player == 'x' && weigth < child_weight) {
+                    weigth = child_weight;
+                    alpha = child_weight;
+                } else if (weigth > child_weight) {
+                    weigth = child_weight;
+                    beta = child_weight;
+                }
+
+                board[k][j] = ' ';
+
+            }
+
+            if (board[t-1][j] != ' ')
                 continue;
 
-            board[i][j] = player;
+            board[t-1][j] = 'x';
 
-            double child_weight = minimax(board, depht_max, depht + 1, {i,j}, alpha, beta, player == 'x' ? 'o' : 'x');
+            child_weight = minimax(board, depth_max, depth + 1, {t-1,j}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+            std::cout << "child generated " << t-1 << " " << j<< " d = " << depth << std::endl;
+
 
             if (player == 'x' && weigth < child_weight) {
                 weigth = child_weight;
@@ -681,9 +729,74 @@ double minimax(board_type board, const int depht_max, int depht, pair_played las
                 beta = child_weight;
             }
 
-            board[i][j] = ' ';
+            board[t-1][j] = ' ';
+        }
+
+        for (int i = k+1; i < t-1; i++) {
+
+            if (board[i][k] == ' ') {
+
+                board[i][k] = 'x';
+
+                child_weight = minimax(board, depth_max, depth + 1, {i,k}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+                std::cout << "child generated " << i << " " << k<< " d = " << depth << std::endl;
+
+
+                if (player == 'x' && weigth < child_weight) {
+                    weigth = child_weight;
+                    alpha = child_weight;
+                } else if (weigth > child_weight) {
+                    weigth = child_weight;
+                    beta = child_weight;
+                }
+
+                board[i][k] = ' ';
+
+            }
+
+            if (board[i][t-1] != ' ')
+                continue;
+
+            board[i][t-1] = 'x';
+
+            child_weight = minimax(board, depth_max, depth + 1, {i,t-1}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+            std::cout << "child generated " << i << " " << t-1<< " d = " << depth << std::endl;
+
+
+            if (player == 'x' && weigth < child_weight) {
+                weigth = child_weight;
+                alpha = child_weight;
+            } else if (weigth > child_weight) {
+                weigth = child_weight;
+                beta = child_weight;
+            }
+
+            board[i][t-1] = ' ';
         }
     }
+
+//    for (int i = 0; i < 15 && alpha < beta; i++) {
+//        for(int j = 0; j < 15 && alpha < beta; j++) {
+//            if (board[i][j] != ' ')
+//                continue;
+
+//            board[i][j] = player;
+
+//            double child_weight = minimax(board, depth_max, depth + 1, {i,j}, alpha, beta, player == 'x' ? 'o' : 'x');
+
+//            if (player == 'x' && weigth < child_weight) {
+//                weigth = child_weight;
+//                alpha = child_weight;
+//            } else if (weigth > child_weight) {
+//                weigth = child_weight;
+//                beta = child_weight;
+//            }
+
+//            board[i][j] = ' ';
+//        }
+//    }
 
     return weigth;
 }
@@ -696,23 +809,101 @@ pair_played minimax(board_type board, const int depth_max)
     double alpha = NEGATIVE_INFINITE;
     double weigth = NEGATIVE_INFINITE;
     pair_played best_played{-1, -1};
+    double child_weight;
 
-    for (int i = 0; i < 15; i++) {
-        for(int j = 0; j < 15; j++) {
-            if (board[i][j] != ' ')
-                continue;
+    if (board[7][7] == ' ') {
 
-            board[i][j] = 'x';
+        board[7][7] = 'x';
 
-            double child_weight = minimax(board, depth_max, 1, {i,j}, alpha, POSITIVE_INFINITE, 'o');
+        child_weight = minimax(board, depth_max, 1, {7,7}, alpha, POSITIVE_INFINITE, 'o');
 
-            if (weigth <= child_weight) {
-                weigth = child_weight;
-                alpha = child_weight;
-                best_played = pair_played{i, j};
+        std::cout << "child generated  7 7" << std::endl;
+
+        if (weigth < child_weight) {
+            weigth = child_weight;
+            alpha = child_weight;
+            best_played = {7,7};
+        }
+
+        board[7][7] = ' ';
+
+    }
+
+    for (int k = 6, t = k+3; k > -1; k--, t++) {
+        for (int j = k; j < t; j++) {
+
+            if (board[k][j] == ' ') {
+
+                board[k][j] = 'x';
+
+                child_weight = minimax(board, depth_max, 1, {k,j}, alpha, POSITIVE_INFINITE, 'o');
+
+                std::cout << "child generated " << k << " " << j << std::endl;
+
+                if (weigth < child_weight) {
+                    weigth = child_weight;
+                    alpha = child_weight;
+                    best_played = {k,j};
+                }
+
+                board[k][j] = ' ';
+
             }
 
-            board[i][j] = ' ';
+            if (board[t-1][j] != ' ')
+                continue;
+
+            board[t-1][j] = 'x';
+
+            child_weight = minimax(board, depth_max, 1, {t-1,j}, alpha, POSITIVE_INFINITE, 'o');
+
+            std::cout << "child generated " << t-1 << " " << j << std::endl;
+
+            if (weigth < child_weight) {
+                weigth = child_weight;
+                alpha = child_weight;
+                best_played = {t-1,j};
+            }
+
+            board[t-1][j] = ' ';
+        }
+
+        for (int i = k+1; i < t-1; i++) {
+
+            if (board[i][k] == ' ') {
+
+                board[i][k] = 'x';
+
+                child_weight = minimax(board, depth_max, 1, {i,k}, alpha, POSITIVE_INFINITE, 'o');
+
+                std::cout << "child generated " << i << " " << k << std::endl;
+
+                if (weigth < child_weight) {
+                    weigth = child_weight;
+                    alpha = child_weight;
+                    best_played = {i,k};
+                }
+
+                board[i][k] = ' ';
+
+            }
+
+            if (board[i][t-1] != ' ')
+                continue;
+
+            board[i][t-1] = 'x';
+
+            child_weight = minimax(board, depth_max, 1, {i,t-1}, alpha, POSITIVE_INFINITE, 'o');
+
+            std::cout << "child generated " << i << " " << t-1 << std::endl;
+
+            if (weigth < child_weight) {
+                weigth = child_weight;
+                alpha = child_weight;
+                best_played = {i,t-1};
+            }
+
+            board[i][t-1] = ' ';
         }
     }
 

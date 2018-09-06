@@ -37,7 +37,7 @@ namespace ai
     bool is_game_over(board_type board, pair_played last_played);
 
     pair_played minimax(board_type board, const int depth_max);
-    double minimax(board_type board, const int depht_max, int depht, pair_played last_played, double alpha, double beta, char player);
+    double minimax(board_type board, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player);
 
 }   // namespace ai
 
