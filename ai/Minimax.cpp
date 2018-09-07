@@ -5,6 +5,35 @@
 namespace ai
 {
 
+double gets_utility_points(int points_amount, char player)
+{
+    bool is_computer = player == 'x';
+
+    switch (points_amount)
+    {
+    case 1:  return is_computer ? 1         : -1;
+    case 2:  return is_computer ? 250       : -250;
+    case 3:  return is_computer ? 50000     : -50000;
+    case 4:  return is_computer ? 3600000   : -3600000;
+    case 5:  return is_computer ? 200000000 : -200000000;
+    default: return 0;
+    }
+}
+
+double gets_heuristic_points(int points_amount, char player)
+{
+    bool is_computer = player == 'x';
+
+    switch (points_amount)
+    {
+    case 1:  return is_computer ? 10    : -10;
+    case 2:  return is_computer ? 100   : -100;
+    case 3:  return is_computer ? 1000  : -1000;
+    case 4:  return is_computer ? 10000 : -10000;
+    default: return 0;
+    }
+}
+
 double horizontal_points(board_type board)
 {
     double result = 0;
@@ -24,14 +53,7 @@ double horizontal_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[i][j] == ' ')
                 {
@@ -54,16 +76,7 @@ double horizontal_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     return result;
@@ -88,14 +101,7 @@ double vertical_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[i][j] == ' ')
                 {
@@ -119,16 +125,7 @@ double vertical_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     return result;
@@ -153,14 +150,7 @@ double diagonal_right_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[i][j] == ' ')
                 {
@@ -183,16 +173,7 @@ double diagonal_right_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     for (int k = 15; k < 29; k++)
@@ -210,14 +191,7 @@ double diagonal_right_points(board_type board)
             }
             else if (((board[j][i] == ' ' || openned) && point) || point == 5)
             {
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[j][i] == ' ')
                 {
@@ -240,16 +214,7 @@ double diagonal_right_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     return result;
@@ -274,14 +239,7 @@ double diagonal_left_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[i][j] == ' ')
                 {
@@ -304,16 +262,7 @@ double diagonal_left_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     for (int k = 0; k < 15; k++)
@@ -332,15 +281,7 @@ double diagonal_left_points(board_type board)
             }
             else if (((board[j][i] == ' ' || openned) && point) || point == 5)
             {
-
-                switch (point)
-                {
-                case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-                case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-                case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-                case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-                default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-                }
+                result += gets_utility_points(point, current);
 
                 if (board[j][i] == ' ')
                 {
@@ -363,16 +304,7 @@ double diagonal_left_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-        {
-            switch (point)
-            {
-            case 1:  current == 'x' ? result += 1         : result -= 1;         break;
-            case 2:  current == 'x' ? result += 250       : result -= 250;       break;
-            case 3:  current == 'x' ? result += 50000     : result -= 50000;     break;
-            case 4:  current == 'x' ? result += 3600000   : result -= 3600000;   break;
-            default: current == 'x' ? result += 200000000 : result -= 200000000; break;
-            }
-        }
+            result += gets_utility_points(point, current);
     }
 
     return result;
@@ -418,14 +350,7 @@ double horizontal_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
@@ -464,14 +389,7 @@ double vertical_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
@@ -510,14 +428,7 @@ double diagonal_right_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
@@ -549,14 +460,7 @@ double diagonal_right_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
@@ -595,14 +499,7 @@ double diagonal_left_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
@@ -634,14 +531,7 @@ double diagonal_left_winner_possible(board_type board)
                 point++;
             }
 
-            switch (point)
-            {
-            case 1: current == 'x' ? result += 10    : result -= 10;    break;
-            case 2: current == 'x' ? result += 100   : result -= 100;   break;
-            case 3: current == 'x' ? result += 1000  : result -= 1000;  break;
-            case 4: current == 'x' ? result += 10000 : result -= 10000; break;
-            default: break;
-            }
+            result += gets_heuristic_points(point, current);
         }
     }
 
