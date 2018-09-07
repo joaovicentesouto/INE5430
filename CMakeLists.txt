@@ -24,4 +24,5 @@ set(ai_source_dir ${PROJECT_SOURCE_DIR})
 # Add subdirectories
 add_subdirectory(3rdparty)
 add_subdirectory(ai)
+add_subdirectory(apps)
 add_subdirectory(tests)
