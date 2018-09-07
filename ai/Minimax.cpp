@@ -34,17 +34,17 @@ double get_heuristic_points(int points_amount, char player)
     }
 }
 
-double horizontal_points(board_type board)
+double horizontal_utility(board_type board)
 {
     double result = 0;
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 15; ++i)
     {
         int point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int j = 0; j < 15; j++)
+        for (int j = 0; j < 15; ++j)
         {
             if (board[i][j] == current)
             {
@@ -73,17 +73,17 @@ double horizontal_points(board_type board)
     return result;
 }
 
-double vertical_points(board_type board)
+double vertical_utility(board_type board)
 {
     double result = 0;
 
-    for (int j = 0; j < 15; j++)
+    for (int j = 0; j < 15; ++j)
     {
         int point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 15; ++i)
         {
             if (board[i][j] == current)
             {
@@ -113,17 +113,17 @@ double vertical_points(board_type board)
     return result;
 }
 
-double diagonal_right_points(board_type board)
+double diagonal_right_utility(board_type board)
 {
     double result = 0;
 
-    for (int k = 0; k < 15; k++)
+    for (int k = 0; k < 15; ++k)
     {
         int i = 0, point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int j = 14 - k; j < 15; j++)
+        for (int j = 14 - k; j < 15; ++j)
         {
             if (board[i][j] == current)
             {
@@ -143,20 +143,20 @@ double diagonal_right_points(board_type board)
                 openned = current == ' ';
             }
 
-            current = board[i++][j];
+            current = board[++i][j];
         }
 
         if ((openned && point) || point == 5)
             result += get_utility_points(point, current);
     }
 
-    for (int k = 15; k < 29; k++)
+    for (int k = 15; k < 29; ++k)
     {
         int i = 0, point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int j = k - 14; j < 15; j++)
+        for (int j = k - 14; j < 15; ++j)
         {
             if (board[j][i] == current)
             {
@@ -176,7 +176,7 @@ double diagonal_right_points(board_type board)
                 point = 1;
             }
 
-            current = board[j][i++];
+            current = board[j][++i];
         }
 
         if ((openned && point) || point == 5)
@@ -186,17 +186,17 @@ double diagonal_right_points(board_type board)
     return result;
 }
 
-double diagonal_left_points(board_type board)
+double diagonal_left_utility(board_type board)
 {
     double result = 0;
 
-    for (int k = 0; k < 15; k++)
+    for (int k = 0; k < 15; ++k)
     {
         int i = 0, point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int j = k; j > -1; j--)
+        for (int j = k; j > -1; --j)
         {
             if (board[i][j] == current)
             {
@@ -216,21 +216,21 @@ double diagonal_left_points(board_type board)
                 point = 1;
             }
 
-            current = board[i++][j];
+            current = board[++i][j];
         }
 
         if ((openned && point) || point == 5)
             result += get_utility_points(point, current);
     }
 
-    for (int k = 0; k < 15; k++)
+    for (int k = 0; k < 15; ++k)
     {
         int i = k + 1;
         int point = 0;
         char current = ' ';
         bool openned = false;
 
-        for (int j = 14; j > k + 1; j--)
+        for (int j = 14; j > k + 1; --j)
         {
             if (board[j][i] == current)
             {
@@ -250,7 +250,7 @@ double diagonal_left_points(board_type board)
                 point = 1;
             }
 
-            current = board[j][i++];
+            current = board[j][++i];
         }
 
         if ((openned && point) || point == 5)
@@ -260,26 +260,18 @@ double diagonal_left_points(board_type board)
     return result;
 }
 
-double utility(board_type board)
-{
-    return horizontal_points(board)
-         + vertical_points(board)
-         + diagonal_left_points(board)
-         + diagonal_right_points(board);
-}
-
-double horizontal_winner_possible(board_type board)
+double horizontal_heuristic(board_type board)
 {
     double result = 0;
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 15; ++i)
     {
-        for (int j = 0; j < 11; j++)
+        for (int j = 0; j < 11; ++j)
         {
             int point = 0;
             char current = ' ';
 
-            for (int k = j; k < j + 5; k++)
+            for (int k = j; k < j + 5; ++k)
             {
                 if (board[i][k] == ' ')
                     continue;
@@ -307,18 +299,18 @@ double horizontal_winner_possible(board_type board)
     return result;
 }
 
-double vertical_winner_possible(board_type board)
+double vertical_heuristic(board_type board)
 {
     double result = 0;
 
-    for (int j = 0; j < 15; j++)
+    for (int j = 0; j < 15; ++j)
     {
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 11; ++i)
         {
             int point = 0;
             char current = ' ';
 
-            for (int k = i; k < i + 5; k++)
+            for (int k = i; k < i + 5; ++k)
             {
                 if (board[k][j] == ' ')
                     continue;
@@ -346,18 +338,18 @@ double vertical_winner_possible(board_type board)
     return result;
 }
 
-double diagonal_right_winner_possible(board_type board)
+double diagonal_right_heuristic(board_type board)
 {
     double result = 0;
 
-    for (int k = 4; k < 15; k++)
+    for (int k = 4; k < 15; ++k)
     {
-        for (int j = 14 - k, i = 0; j < 11; j++, i++)
+        for (int j = 14 - k, i = 0; j < 11; ++j, ++i)
         {
             int point = 0;
             char current = ' ';
 
-            for (int m = i, n = j; m < i + 5; m++, n++)
+            for (int m = i, n = j; m < i + 5; ++m, ++n)
             {
                 if (board[m][n] == ' ')
                     continue;
@@ -382,14 +374,14 @@ double diagonal_right_winner_possible(board_type board)
         }
     }
 
-    for (int k = 1; k < 11; k++)
+    for (int k = 1; k < 11; ++k)
     {
-        for (int i = k, j = 0; i < 11; i++, j++)
+        for (int i = k, j = 0; i < 11; ++i, ++j)
         {
             int point = 0;
             char current = ' ';
 
-            for (int m = i, n = j; m < i + 5; m++, n++)
+            for (int m = i, n = j; m < i + 5; ++m, ++n)
             {
                 if (board[m][n] == ' ')
                     continue;
@@ -417,18 +409,18 @@ double diagonal_right_winner_possible(board_type board)
     return result;
 }
 
-double diagonal_left_winner_possible(board_type board)
+double diagonal_left_heuristic(board_type board)
 {
     double result = 0;
 
-    for (int k = 4; k < 15; k++)
+    for (int k = 4; k < 15; ++k)
     {
-        for (int j = k, i = 0; j > 3; j--, i++)
+        for (int j = k, i = 0; j > 3; --j, ++i)
         {
             int point = 0;
             char current = ' ';
 
-            for (int m = i, n = j; m < i + 5; m++, n--)
+            for (int m = i, n = j; m < i + 5; ++m, n--)
             {
                 if (board[m][n] == ' ')
                     continue;
@@ -453,14 +445,14 @@ double diagonal_left_winner_possible(board_type board)
         }
     }
 
-    for (int k = 1; k < 11; k++)
+    for (int k = 1; k < 11; ++k)
     {
-        for (int i = k, j = 14; i < 11; i++, j--)
+        for (int i = k, j = 14; i < 11; ++i, --j)
         {
             int point = 0;
             char current = ' ';
 
-            for (int m = i, n = j; m < i + 5; m++, n--)
+            for (int m = i, n = j; m < i + 5; ++m, n--)
             {
                 if (board[m][n] == ' ')
                     continue;
@@ -486,15 +478,6 @@ double diagonal_left_winner_possible(board_type board)
     }
 
     return result;
-}
-
-double heuristic(board_type board)
-{
-    return utility(board)
-         + horizontal_winner_possible(board)
-         + vertical_winner_possible(board)
-         + diagonal_right_winner_possible(board)
-         + diagonal_left_winner_possible(board);
 }
 
 bool is_game_over(board_type board)
@@ -510,7 +493,7 @@ bool is_game_over(board_type board, pair_played last_played)
     int y = last_played.second;
     char player = board[x][y];
 
-    for (int i = y - 4; i < y + 5 && i < 15; i++)
+    for (int i = y - 4; i < y + 5 && i < 15; ++i)
     {
         if (i < 0)
             continue;
@@ -525,7 +508,7 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = x - 4; i < x + 5 && i < 15; i++)
+    for (int i = x - 4; i < x + 5 && i < 15; ++i)
     {
         if (i < 0)
             continue;
@@ -540,7 +523,7 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = x - 4, j = y - 4; i < x + 5 && i < 15 && j < 15; i++, j++)
+    for (int i = x - 4, j = y - 4; i < x + 5 && i < 15 && j < 15; ++i, ++j)
     {
         if (i < 0 || j < 0)
             continue;
@@ -555,7 +538,7 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = x - 4, j = y + 4; i < x + 5 && i < 15 && j > -1; i++, j--)
+    for (int i = x - 4, j = y + 4; i < x + 5 && i < 15 && j > -1; ++i, --j)
     {
         if (i < 0 || j > 14)
             continue;
@@ -570,6 +553,23 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     return false;
+}
+
+double utility(board_type board)
+{
+    return horizontal_utility(board)
+         + vertical_utility(board)
+         + diagonal_right_utility(board)
+         + diagonal_left_utility(board);
+}
+
+double heuristic(board_type board)
+{
+    return utility(board)
+         + horizontal_heuristic(board)
+         + vertical_heuristic(board)
+         + diagonal_right_heuristic(board)
+         + diagonal_left_heuristic(board);
 }
 
 double minimax(board_type board, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player)
@@ -605,7 +605,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
 
     for (int k = 6, t = k + 3; k > -1 && alpha < beta; k--, t++)
     {
-        for (int j = k; j < t && alpha < beta; j++)
+        for (int j = k; j < t && alpha < beta; ++j)
         {
             if (board[k][j] == ' ')
             {
@@ -648,7 +648,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
             board[t - 1][j] = ' ';
         }
 
-        for (int i = k + 1; i < t - 1 && alpha < beta; i++)
+        for (int i = k + 1; i < t - 1 && alpha < beta; ++i)
         {
             if (board[i][k] == ' ')
             {
@@ -723,7 +723,7 @@ pair_played minimax(board_type board, const int depth_max)
 
     for (int k = 6, t = k + 3; k > -1; k--, t++)
     {
-        for (int j = k; j < t; j++)
+        for (int j = k; j < t; ++j)
         {
             if (board[k][j] == ' ')
             {
@@ -758,7 +758,7 @@ pair_played minimax(board_type board, const int depth_max)
             board[t - 1][j] = ' ';
         }
 
-        for (int i = k + 1; i < t - 1; i++)
+        for (int i = k + 1; i < t - 1; ++i)
         {
             if (board[i][k] == ' ')
             {

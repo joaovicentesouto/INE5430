@@ -18,15 +18,15 @@ namespace ai
     #define POSITIVE_INFINITE std::numeric_limits<double>::max()
     #define NEGATIVE_INFINITE -POSITIVE_INFINITE
 
-    double horizontal_points(board_type board);
-    double vertical_points(board_type board);
-    double diagonal_right_points(board_type board);
-    double diagonal_left_points(board_type board);
+    double horizontal_utility(board_type board);
+    double vertical_utility(board_type board);
+    double diagonal_right_utility(board_type board);
+    double diagonal_left_utility(board_type board);
 
-    double horizontal_winner_possible(board_type board);
-    double vertical_winner_possible(board_type board);
-    double diagonal_right_winner_possible(board_type board);
-    double diagonal_left_winner_possible(board_type board);
+    double horizontal_heuristic(board_type board);
+    double vertical_heuristic(board_type board);
+    double diagonal_right_heuristic(board_type board);
+    double diagonal_left_heuristic(board_type board);
 
     double heuristic(board_type board);
     double utility(board_type board);

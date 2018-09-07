@@ -7,7 +7,7 @@
 
 using namespace ai;
 
-TEST_CASE("Minimax: minimax horizontal_points", "[ai][minimax]")
+TEST_CASE("Minimax: minimax horizontal_utility", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -24,10 +24,10 @@ TEST_CASE("Minimax: minimax horizontal_points", "[ai][minimax]")
     board[6][7] = 'o';
     board[6][8] = 'o';
 
-    CHECK(horizontal_points(board) == 199949999);
+    CHECK(horizontal_utility(board) == 199949999);
 }
 
-TEST_CASE("Minimax: minimax vertical_points", "[ai][minimax]")
+TEST_CASE("Minimax: minimax vertical_utility", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -44,10 +44,10 @@ TEST_CASE("Minimax: minimax vertical_points", "[ai][minimax]")
     board[7][6] = 'o';
     board[8][6] = 'o';
 
-    CHECK(vertical_points(board) == 199949999);
+    CHECK(vertical_utility(board) == 199949999);
 }
 
-TEST_CASE("Minimax: minimax diagonal_right_points", "[ai][minimax]")
+TEST_CASE("Minimax: minimax diagonal_right_utility", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -64,10 +64,10 @@ TEST_CASE("Minimax: minimax diagonal_right_points", "[ai][minimax]")
     board[6][7] = 'o';
     board[7][8] = 'o';
 
-    CHECK(diagonal_right_points(board) == 199949999);
+    CHECK(diagonal_right_utility(board) == 199949999);
 }
 
-TEST_CASE("Minimax: minimax diagonal_right_points2", "[ai][minimax]")
+TEST_CASE("Minimax: minimax diagonal_right_utility2", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -84,10 +84,10 @@ TEST_CASE("Minimax: minimax diagonal_right_points2", "[ai][minimax]")
     board[8][7] = 'o';
     board[9][8] = 'o';
 
-    CHECK(diagonal_right_points(board) == 199949999);
+    CHECK(diagonal_right_utility(board) == 199949999);
 }
 
-TEST_CASE("Minimax: minimax diagonal_left_points", "[ai][minimax]")
+TEST_CASE("Minimax: minimax diagonal_left_utility", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -104,10 +104,10 @@ TEST_CASE("Minimax: minimax diagonal_left_points", "[ai][minimax]")
     board[8][5] = 'o';
     board[9][4] = 'o';
 
-    CHECK(diagonal_left_points(board) == 199949999);
+    CHECK(diagonal_left_utility(board) == 199949999);
 }
 
-TEST_CASE("Minimax: minimax diagonal_left_points2", "[ai][minimax]")
+TEST_CASE("Minimax: minimax diagonal_left_utility2", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -124,7 +124,7 @@ TEST_CASE("Minimax: minimax diagonal_left_points2", "[ai][minimax]")
     board[8][7] = 'o';
     board[9][6] = 'o';
 
-    CHECK(diagonal_left_points(board) == 199949999);
+    CHECK(diagonal_left_utility(board) == 199949999);
 }
 
 TEST_CASE("Minimax: minimax utility", "[ai][minimax]")
@@ -147,7 +147,7 @@ TEST_CASE("Minimax: minimax utility", "[ai][minimax]")
     CHECK(utility(board) == 199949754);
 }
 
-TEST_CASE("Minimax: minimax horizontal_winner_possible", "[ai][minimax]")
+TEST_CASE("Minimax: minimax horizontal_heuristic", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -163,10 +163,10 @@ TEST_CASE("Minimax: minimax horizontal_winner_possible", "[ai][minimax]")
     board[14][8] = 'o';
     board[14][10] = 'o';
 
-    CHECK(horizontal_winner_possible(board) == -1440);
+    CHECK(horizontal_heuristic(board) == -1440);
 }
 
-TEST_CASE("Minimax: minimax vertical_winner_possible", "[ai][minimax]")
+TEST_CASE("Minimax: minimax vertical_heuristic", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -182,10 +182,10 @@ TEST_CASE("Minimax: minimax vertical_winner_possible", "[ai][minimax]")
     board[8][14] = 'o';
     board[10][14] = 'o';
 
-    CHECK(vertical_winner_possible(board) == -1440);
+    CHECK(vertical_heuristic(board) == -1440);
 }
 
-TEST_CASE("Minimax: minimax diagonal_left_winner_possible", "[ai][minimax]")
+TEST_CASE("Minimax: minimax diagonal_left_heuristic", "[ai][minimax]")
 {
     board_type board;
     for(int i = 0; i < 15; i++)
@@ -201,7 +201,7 @@ TEST_CASE("Minimax: minimax diagonal_left_winner_possible", "[ai][minimax]")
     board[8][8] = 'o';
     board[10][6] = 'o';
 
-    CHECK(diagonal_left_winner_possible(board) == -1440);
+    CHECK(diagonal_left_heuristic(board) == -1440);
 }
 
 TEST_CASE("Minimax: minimax heuristic", "[ai][minimax]")
