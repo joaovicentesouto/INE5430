@@ -143,7 +143,7 @@ double diagonal_right_utility(board_type board)
                 openned = current == ' ';
             }
 
-            current = board[++i][j];
+            current = board[i++][j];
         }
 
         if ((openned && point) || point == 5)
@@ -176,7 +176,7 @@ double diagonal_right_utility(board_type board)
                 point = 1;
             }
 
-            current = board[j][++i];
+            current = board[j][i++];
         }
 
         if ((openned && point) || point == 5)
@@ -216,7 +216,7 @@ double diagonal_left_utility(board_type board)
                 point = 1;
             }
 
-            current = board[++i][j];
+            current = board[i++][j];
         }
 
         if ((openned && point) || point == 5)
@@ -250,7 +250,7 @@ double diagonal_left_utility(board_type board)
                 point = 1;
             }
 
-            current = board[j][++i];
+            current = board[j][i++];
         }
 
         if ((openned && point) || point == 5)
@@ -798,3 +798,4 @@ pair_played minimax(board_type board, const int depth_max)
 }
 
 } // namespace ai
+    

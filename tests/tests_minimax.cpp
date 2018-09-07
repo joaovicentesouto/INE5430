@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <ai/Minimax.hpp>
+#include <ai/MovesList.hpp>
 
 using namespace ai;
 
@@ -265,4 +266,14 @@ TEST_CASE("Minimax: game_over", "[ai][minimax]")
 
     for (int i = 3; i < 8; i++)
         CHECK(is_game_over(board, {5,i}));
+}
+
+TEST_CASE("Minimax: moves list", "[ai][minimax]")
+{
+    MovesList<15, 15> list;
+
+    for (auto i = list.remove_first(); i != nullptr; i = list.next(i))
+        std::cout << i->_x << " " << i->_y << std::endl;
+    
+    CHECK(true);
 }
