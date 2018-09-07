@@ -5,7 +5,7 @@
 namespace ai
 {
 
-double gets_utility_points(int points_amount, char player)
+double get_utility_points(int points_amount, char player)
 {
     bool is_computer = player == 'x';
 
@@ -20,7 +20,7 @@ double gets_utility_points(int points_amount, char player)
     }
 }
 
-double gets_heuristic_points(int points_amount, char player)
+double get_heuristic_points(int points_amount, char player)
 {
     bool is_computer = player == 'x';
 
@@ -53,30 +53,21 @@ double horizontal_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
-
-                if (board[i][j] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                result += get_utility_points(point, current);
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
-                point = 1;
                 openned = current == ' ';
+                point = 1;
             }
 
             current = board[i][j];
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     return result;
@@ -101,31 +92,22 @@ double vertical_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
+                result += get_utility_points(point, current);
 
-                if (board[i][j] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
-
-                point = 1;
                 openned = current == ' ';
+                point = 1;
             }
 
             current = board[i][j];
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     return result;
@@ -150,18 +132,10 @@ double diagonal_right_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
+                result += get_utility_points(point, current);
 
-                if (board[i][j] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
@@ -173,7 +147,7 @@ double diagonal_right_points(board_type board)
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     for (int k = 15; k < 29; k++)
@@ -191,30 +165,22 @@ double diagonal_right_points(board_type board)
             }
             else if (((board[j][i] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
+                result += get_utility_points(point, current);
 
-                if (board[j][i] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
-                point = 1;
                 openned = current == ' ';
+                point = 1;
             }
 
             current = board[j][i++];
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     return result;
@@ -239,30 +205,22 @@ double diagonal_left_points(board_type board)
             }
             else if (((board[i][j] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
+                result += get_utility_points(point, current);
 
-                if (board[i][j] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
-                point = 1;
                 openned = current == ' ';
+                point = 1;
             }
 
             current = board[i++][j];
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     for (int k = 0; k < 15; k++)
@@ -281,30 +239,22 @@ double diagonal_left_points(board_type board)
             }
             else if (((board[j][i] == ' ' || openned) && point) || point == 5)
             {
-                result += gets_utility_points(point, current);
+                result += get_utility_points(point, current);
 
-                if (board[j][i] == ' ')
-                {
-                    openned = true;
-                    point = 0;
-                }
-                else
-                {
-                    openned = false;
-                    point = 1;
-                }
+                openned = board[i][j] == ' ';
+                point = openned ? 0 : 1;
             }
             else
             {
-                point = 1;
                 openned = current == ' ';
+                point = 1;
             }
 
             current = board[j][i++];
         }
 
         if ((openned && point) || point == 5)
-            result += gets_utility_points(point, current);
+            result += get_utility_points(point, current);
     }
 
     return result;
@@ -350,7 +300,7 @@ double horizontal_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -389,7 +339,7 @@ double vertical_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -428,7 +378,7 @@ double diagonal_right_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -460,7 +410,7 @@ double diagonal_right_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -499,7 +449,7 @@ double diagonal_left_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -531,7 +481,7 @@ double diagonal_left_winner_possible(board_type board)
                 point++;
             }
 
-            result += gets_heuristic_points(point, current);
+            result += get_heuristic_points(point, current);
         }
     }
 
@@ -556,14 +506,16 @@ bool is_game_over(board_type board)
 bool is_game_over(board_type board, pair_played last_played)
 {
     int point = 0;
-    char player = board[last_played.first][last_played.second];
+    int x = last_played.first;
+    int y = last_played.second;
+    char player = board[x][y];
 
-    for (int i = last_played.second - 4; i < last_played.second + 5 && i < 15; i++)
+    for (int i = y - 4; i < y + 5 && i < 15; i++)
     {
         if (i < 0)
             continue;
 
-        if (board[last_played.first][i] == player)
+        if (board[x][i] == player)
         {
             if (++point == 5)
                 return true;
@@ -573,12 +525,12 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = last_played.first - 4; i < last_played.first + 5 && i < 15; i++)
+    for (int i = x - 4; i < x + 5 && i < 15; i++)
     {
         if (i < 0)
             continue;
 
-        if (board[i][last_played.second] == player)
+        if (board[i][y] == player)
         {
             if (++point == 5)
                 return true;
@@ -588,7 +540,7 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = last_played.first - 4, j = last_played.second - 4; i < last_played.first + 5 && i < 15 && j < 15; i++, j++)
+    for (int i = x - 4, j = y - 4; i < x + 5 && i < 15 && j < 15; i++, j++)
     {
         if (i < 0 || j < 0)
             continue;
@@ -603,7 +555,7 @@ bool is_game_over(board_type board, pair_played last_played)
     }
 
     point = 0;
-    for (int i = last_played.first - 4, j = last_played.second + 4; i < last_played.first + 5 && i < 15 && j > -1; i++, j--)
+    for (int i = x - 4, j = y + 4; i < x + 5 && i < 15 && j > -1; i++, j--)
     {
         if (i < 0 || j > 14)
             continue;
