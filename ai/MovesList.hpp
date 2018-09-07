@@ -30,8 +30,8 @@ namespace ai
         Move(Move&&) = default;
         Move& operator=(Move&&) = default;
 
-        Move(int x, int y, Move * left, Move * right) :
-            _x(x), _y(y), _left(left), _right(right)
+        Move(int x, int y, Move * left, Move * right, bool valid) :
+            _x(x), _y(y), _left(left), _right(right), _valid(valid)
         {
 
         };
@@ -41,6 +41,7 @@ namespace ai
     private:
         Move *_left{nullptr};
         Move *_right{nullptr};
+        bool _valid{true};
     };
 
     template<int width, int height>
@@ -51,6 +52,12 @@ namespace ai
 
         Move* remove_first();
         Move* next(Move * previous);
+
+        void put_back(Move * move);
+        void remove(Move * move);
+        Move * remove(int x, int y);
+
+        bool empty() { return _moves.empty(); };
 
     private:
         std::vector<Move> _moves;
@@ -65,7 +72,7 @@ ai::MovesList<width, height>::MovesList() :
 {
     assert(width % 2 == 1 && height % 2 == 1);
 
-    _moves[0] = {height/2, width/2, nullptr, &_moves[1]};
+    _moves[0] = {height/2, width/2, nullptr, &_moves[1], true};
 
     int index = 1, max_index = width * height;
 
@@ -73,19 +80,19 @@ ai::MovesList<width, height>::MovesList() :
     {
         for (int j = k; j < t; ++j)
         {
-            _moves[index] = {  k, j, &_moves[index - 1], &_moves[index + 1]};
+            _moves[index] = {  k, j, &_moves[index - 1], &_moves[index + 1], true};
             index++;
-            _moves[index] = {t-1, j, &_moves[index - 1], &_moves[index + 1]};
+            _moves[index] = {t-1, j, &_moves[index - 1], &_moves[index + 1], true};
             index++;
         }
 
         for (int i = k + 1; i < t - 1; ++i)
         {
-            _moves[index] = {i,   k, &_moves[index - 1], &_moves[index + 1]};
+            _moves[index] = {i,   k, &_moves[index - 1], &_moves[index + 1], true};
             index++;
 
             ai::Move * next = index + 1 < max_index ? &_moves[index + 1] : nullptr;
-            _moves[index] = {i, t-1, &_moves[index - 1], next};
+            _moves[index] = {i, t-1, &_moves[index - 1], next, true};
             index++;
         }
     }
@@ -99,9 +106,14 @@ ai::Move* ai::MovesList<width, height>::remove_first()
 
     auto first = _head;
     _head = first->_right;
+
+    if (first->_left)
+        first->_left->_right = first->_right;
     
-    if (first->_right)
-        first->_right->_left = nullptr;
+    if (_head)
+        _head->_left = nullptr;
+
+    first->_valid = false;
 
     return first;
 }
@@ -121,9 +133,64 @@ ai::Move* ai::MovesList<width, height>::next(Move * previous)
 
         if (next == _head)
             _head = previous;
+        
+        next->_valid = false;
     }
 
+    previous->_valid = true;
+
     return next;
+}
+
+template<int width, int height>
+void ai::MovesList<width, height>::put_back(Move * move)
+{
+    if (move->_left)
+        move->_left->_right = move;
+
+    if (move->_right)
+    {
+        move->_right->_left = move;
+
+        if (move->_right == _head)
+            _head = move;
+    }
+
+    move->_valid = true;
+}
+
+template<int width, int height>
+void ai::MovesList<width, height>::remove(Move * move)
+{
+    if (move->_left)
+        move->_left->_right = move->_right;
+
+    if (move->_right)
+    {
+        move->_right->_left = move->_left;
+
+        if (move == _head)
+            _head = move->_right;
+    }
+
+    move->_valid = false;
+}
+
+template<int width, int height>
+ai::Move * ai::MovesList<width, height>::remove(int x, int y)
+{
+    for (auto i = 0; i < _moves.size(); ++i)
+        if (_moves[i]._x == x && _moves[i]._y == y)
+        {
+            if (!_moves[i]._valid)
+                return nullptr;
+
+            this->remove(&_moves[i]);
+            _moves[i]._valid = false;
+            return &_moves[i];
+        }
+
+    return nullptr;
 }
 
 #endif // MOVESLIST_HPP

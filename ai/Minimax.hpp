@@ -9,14 +9,18 @@
 #include <limits>
 #include <cmath>
 
+#include "MovesList.hpp"
+
 namespace ai
 {
     using board_type = char[15][15];
-    using pair_played = std::pair<int,int>;
+    using pair_played = Move *; //std::pair<int,int>;
     using pair_weight = std::pair<double,double>;
 
-    #define POSITIVE_INFINITE std::numeric_limits<double>::max()
-    #define NEGATIVE_INFINITE -POSITIVE_INFINITE
+    using moves_list_type = MovesList<15, 15>;
+
+    static const double POSITIVE_INFINITE = std::numeric_limits<double>::max();
+    static const double NEGATIVE_INFINITE = -POSITIVE_INFINITE;
 
     double horizontal_utility(board_type board);
     double vertical_utility(board_type board);
@@ -34,8 +38,8 @@ namespace ai
     bool is_game_over(board_type board);
     bool is_game_over(board_type board, pair_played last_played);
 
-    pair_played minimax(board_type board, const int depth_max);
-    double minimax(board_type board, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player);
+    pair_played minimax(board_type board, moves_list_type& moves, const int depth_max);
+    double minimax(board_type board, moves_list_type& moves, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player);
 
 }   // namespace ai
 

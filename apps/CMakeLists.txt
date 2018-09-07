@@ -11,8 +11,8 @@
 
 # Fetch test files recursevely
 file(GLOB_RECURSE ai_app_source
-    "main.cpp"
-    # performance_test.cpp
+    # "main.cpp"
+    performance_test.cpp
 )
 
 # Add test target
