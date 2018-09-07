@@ -16,14 +16,15 @@ Facade::~Facade()
 std::pair<int,int> Facade::played(int x, int y, int depth)
 {
     _board[x][y] = 'o';
-    std::pair<int,int> pc = ai::minimax(_board, depth);
-    _board[pc.first][pc.second] = 'x';
-    return {pc.first, pc.second};
+    _moves.remove(x, y);
+    auto pc = ai::minimax(_board, _moves, depth);
+    _board[pc->_x][pc->_y] = 'x';
+    return {pc->_x, pc->_y};
 }
 
 std::pair<int,int> Facade::played(int depth)
 {
-    std::pair<int,int> pc = ai::minimax(_board, depth);
-    _board[pc.first][pc.second] = 'x';
-    return {pc.first, pc.second};
+    auto pc = ai::minimax(_board, _moves, depth);
+    _board[pc->_x][pc->_y] = 'x';
+    return {pc->_x, pc->_y};
 }

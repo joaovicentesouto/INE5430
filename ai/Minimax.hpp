@@ -14,7 +14,7 @@
 namespace ai
 {
     using board_type = char[15][15];
-    using pair_played = Move *; //std::pair<int,int>;
+    using move_type = Move; //std::pair<int,int>;
     using pair_weight = std::pair<double,double>;
 
     using moves_list_type = MovesList<15, 15>;
@@ -36,10 +36,10 @@ namespace ai
     double utility(board_type board);
 
     bool is_game_over(board_type board);
-    bool is_game_over(board_type board, pair_played last_played);
+    bool is_game_over(board_type board, move_type* last_played);
 
-    pair_played minimax(board_type board, moves_list_type& moves, const int depth_max);
-    double minimax(board_type board, moves_list_type& moves, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player);
+    move_type* minimax(board_type board, moves_list_type& moves, const int depth_max);
+    double minimax(board_type board, moves_list_type& moves, const int depth_max, int depth, move_type* last_played, double alpha, double beta, char player);
 
 }   // namespace ai
 

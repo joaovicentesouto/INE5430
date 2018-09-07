@@ -12,7 +12,8 @@ class Facade : public QObject
     Q_OBJECT
 
 public:
-    char _board[15][15];
+    ai::board_type      _board;
+    ai::moves_list_type _moves;
 
     Facade();
     ~Facade();

@@ -486,7 +486,7 @@ bool is_game_over(board_type board)
     return weight >= 102800000;
 }
 
-bool is_game_over(board_type board, pair_played last_played)
+bool is_game_over(board_type board, move_type* last_played)
 {
     int point = 0;
     int x = last_played->_x;
@@ -572,7 +572,7 @@ double heuristic(board_type board)
          + diagonal_left_heuristic(board);
 }
 
-double minimax(board_type board, moves_list_type& moves, const int depth_max, int depth, pair_played last_played, double alpha, double beta, char player)
+double minimax(board_type board, moves_list_type& moves, const int depth_max, int depth, move_type* last_played, double alpha, double beta, char player)
 {
     if (is_game_over(board, last_played) || moves.empty())
         return utility(board) / depth;
@@ -616,14 +616,14 @@ double minimax(board_type board, moves_list_type& moves, const int depth_max, in
     return weigth;
 }
 
-pair_played minimax(board_type board, moves_list_type& moves, const int depth_max)
+move_type* minimax(board_type board, moves_list_type& moves, const int depth_max)
 {
     if (is_game_over(board))
         return nullptr;
 
     double alpha = NEGATIVE_INFINITE;
     double weigth = NEGATIVE_INFINITE;
-    pair_played best_played = nullptr;
+    move_type* best_played = nullptr;
     double child_weight;
 
     for (auto move = moves.remove_first(); move != nullptr; move = moves.next(move))
