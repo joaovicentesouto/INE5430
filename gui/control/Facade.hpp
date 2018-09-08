@@ -18,6 +18,9 @@ public:
     Facade();
     ~Facade();
 
+    void clean();
+    bool gameOver(int x, int y, char player);
+
     std::pair<int,int> played(int depth);
     std::pair<int,int> played(int x, int y, int depth);
 };

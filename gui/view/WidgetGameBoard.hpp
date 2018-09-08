@@ -19,6 +19,7 @@ public:
     ~WidgetGameBoard();
 
     void setFacade(Facade * facade);
+    void clean(bool on, bool tw, bool th, bool fo);
 
 private slots:
     void on__resetButton_clicked();
