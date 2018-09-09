@@ -776,7 +776,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
                     weigth = child_weight;
                     alpha = child_weight;
                 }
-                else if (weigth > child_weight)
+                else if (player != 'x' && weigth > child_weight)
                 {
                     weigth = child_weight;
                     beta = child_weight;
@@ -797,7 +797,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
                 weigth = child_weight;
                 alpha = child_weight;
             }
-            else if (weigth > child_weight)
+            else if (player != 'x' && weigth > child_weight)
             {
                 weigth = child_weight;
                 beta = child_weight;
@@ -819,7 +819,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
                     weigth = child_weight;
                     alpha = child_weight;
                 }
-                else if (weigth > child_weight)
+                else if (player != 'x' && weigth > child_weight)
                 {
                     weigth = child_weight;
                     beta = child_weight;
@@ -840,7 +840,7 @@ double minimax(board_type board, const int depth_max, int depth, pair_played las
                 weigth = child_weight;
                 alpha = child_weight;
             }
-            else if (weigth > child_weight)
+            else if (player != 'x' && weigth > child_weight)
             {
                 weigth = child_weight;
                 beta = child_weight;

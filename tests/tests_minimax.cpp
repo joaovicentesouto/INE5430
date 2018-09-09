@@ -223,25 +223,6 @@ TEST_CASE("Minimax: minimax heuristic", "[ai][minimax]")
     CHECK(heuristic(board) == -42089);
 }
 
-TEST_CASE("Minimax: minimax", "[ai][minimax]")
-{
-    board_type board;
-    for(int i = 0; i < 15; i++)
-        for(int j = 0; j < 15; j++)
-            board[i][j] = ' ';
-
-    board[5][4] = 'o';
-    board[5][5] = 'o';
-    board[5][6] = 'o';
-    board[5][7] = 'o';
-    board[5][8] = 'x';
-
-    auto x = minimax(board, 3);
-
-    CHECK(x.first == 5);
-    CHECK(x.second == 3);
-}
-
 TEST_CASE("Minimax: game_over", "[ai][minimax]")
 {
     board_type board;
@@ -265,4 +246,80 @@ TEST_CASE("Minimax: game_over", "[ai][minimax]")
 
     for (int i = 3; i < 8; i++)
         CHECK(is_game_over(board, {5,i}));
+}
+
+
+void print_board(board_type board)
+{
+    std::cout << std::endl;
+
+    for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++)
+            if (board[i][j] != ' ')
+                std::cout << ' ' << board[i][j] << ' ';
+            else
+                std::cout << " _ ";
+
+        std::cout << std::endl;
+    }
+}
+
+TEST_CASE("Minimax: minimax", "[ai][minimax]")
+{
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    board[5][4] = 'o';
+    board[5][5] = 'o';
+    board[5][6] = 'o';
+    board[5][7] = 'o';
+    board[5][8] = 'x';
+
+    print_board(board);
+
+    auto played = minimax(board, 3);
+
+    board[played.first][played.second] = 'x';
+    print_board(board);
+
+    CHECK(played.first == 5);
+    CHECK(played.second == 3);
+
+//    played = minimax(board, 3);
+
+//    CHECK(played.first == 5);
+//    CHECK(played.second == 3);
+
+
+}
+
+TEST_CASE("Minimax: minimax2", "[ai][minimax]")
+{
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    board[8][4] = 'o';
+    board[8][6] = 'o';
+    board[8][7] = 'o';
+    board[8][8] = 'o';
+
+    board[5][10] = 'x';
+    board[9][7] = 'x';
+    board[8][11] = 'x';
+    board[9][11] = 'x';
+
+//    print_board(board);
+
+    auto played = minimax(board, 2);
+
+    board[played.first][played.second] = 'x';
+    std::cout << std::endl;
+//    print_board(board);
+
+    CHECK(played.first == 8);
+    CHECK(played.second == 5);
 }
