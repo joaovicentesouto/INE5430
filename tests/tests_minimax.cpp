@@ -498,7 +498,14 @@ TEST_CASE("Minimax: minimax", "[ai][minimax]")
 
     print_board(board);
 
-    auto played = minimax(board, moves, 3);
+    auto played = minimax(board, moves, 2);
+
+    CHECK(played->_x == 5);
+    CHECK(played->_y == 3);
+
+    moves.put_back(played);
+
+    played = minimax(board, moves, 2);
 
     CHECK(played->_x == 5);
     CHECK(played->_y == 3);
@@ -548,4 +555,102 @@ TEST_CASE("Minimax: minimax2", "[ai][minimax]")
     board[played->_x][played->_y] = 'x';
     std::cout << std::endl;
     print_board(board);
+}
+
+
+TEST_CASE("Minimax: minimax4", "[ai][minimax]")
+{
+    ai::moves_list_type moves;
+
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    auto played = minimax(board, moves, 2);
+
+    CHECK(played->_x == 7);
+    CHECK(played->_y == 7);
+
+    moves.put_back(played);
+
+    played = minimax(board, moves, 3);
+
+    CHECK(played->_x == 7);
+    CHECK(played->_y == 7);
+
+}
+
+
+TEST_CASE("Minimax: minimax5", "[ai][minimax]")
+{
+    ai::moves_list_type moves;
+
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    board[8][4] = 'o';
+    moves.remove(8, 4);
+
+    auto played = minimax(board, moves, 2);
+
+    CHECK(played->_x == 7);
+    CHECK(played->_y == 7);
+
+    moves.put_back(played);
+
+    played = minimax(board, moves, 2);
+
+    CHECK(played->_x == 7);
+    CHECK(played->_y == 7);
+}
+
+
+TEST_CASE("Minimax: minimax6", "[ai][minimax]")
+{
+    ai::moves_list_type moves;
+
+    board_type board;
+    for(int i = 0; i < 15; i++)
+        for(int j = 0; j < 15; j++)
+            board[i][j] = ' ';
+
+    board[10][7] = 'o';
+    board[11][7] = 'o';
+    board[12][7] = 'o';
+    board[13][7] = 'o';
+    board[13][5] = 'o';
+    board[11][6] = 'o';
+
+    board[10][6] = 'x';
+    board[8][8] = 'x';
+    board[8][9] = 'x';
+    board[8][10] = 'x';
+    board[7][9] = 'x';
+
+    moves.remove(10, 7);
+    moves.remove(11, 7);
+    moves.remove(12, 7);
+    moves.remove(13, 7);
+    moves.remove(13, 5);
+    moves.remove(11, 6);
+
+    moves.remove(10, 6);
+    moves.remove(8, 8);
+    moves.remove(8, 9);
+    moves.remove(8, 10);
+    moves.remove(7, 9);
+
+    print_board(board);
+
+    auto played = minimax(board, moves, 2);
+
+    board[played->_x][played->_y] = 'x';
+    std::cout << std::endl;
+    print_board(board);
+
+    CHECK(played->_x == 9);
+    CHECK(played->_y == 7);
 }
