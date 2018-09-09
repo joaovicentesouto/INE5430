@@ -46,4 +46,6 @@ void Facade::clean()
     for (int i = 0; i < 15; ++i)
         for (int j = 0; j < 15; ++j)
             _board[i][j] = ' ';
+
+    _moves = ai::moves_list_type();
 }

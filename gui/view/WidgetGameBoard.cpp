@@ -93,15 +93,16 @@ void WidgetGameBoard::on__gameBoard_itemDoubleClicked(QTableWidgetItem *item)
     tableItem->setFlags(tableItem->flags() & ~Qt::ItemIsEnabled);
     tableItem->setBackground(QColor("#ff4d4d"));
 
-
     if(_facade->gameOver(pc.first, pc.second, 'x')) {
-
+        qApp->processEvents();
         _facade->clean();
         clean(true,false,true,true);
         ui->_playerLabel->setText("You Lose!");
 
         return;
     }
+
+    qApp->processEvents();
 
     ui->_playerLabel->setText("Your turn");
 }
@@ -119,4 +120,5 @@ void WidgetGameBoard::on__resetButton_clicked()
     ui->_playerLabel->setText("?");
 
     clean(true,true,true,false);
+    _facade->clean();
 }
