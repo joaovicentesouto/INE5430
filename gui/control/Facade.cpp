@@ -20,7 +20,6 @@ std::pair<int,int> Facade::played(int depth)
     if (!pc)
         return {-1, -1};
 
-    _board[pc->_x][pc->_y] = 'x';
     return {pc->_x, pc->_y};
 }
 
@@ -31,16 +30,15 @@ std::pair<int,int> Facade::played(int x, int y, int depth)
     if (!pc)
         return {-1, -1};
 
-    _board[pc->_x][pc->_y] = 'x';
     return {pc->_x, pc->_y};
 }
 
 bool Facade::gameOver(int x, int y, char player)
 {
     _board[x][y] = player;
-    _moves.remove(x, y);
+    auto move = _moves.remove(x, y);
 
-    return ai::is_game_over(_board);
+    return ai::is_game_over(_board, move);
 }
 
 void Facade::clean()

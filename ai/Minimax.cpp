@@ -591,10 +591,6 @@ double minimax(board_type board, moves_list_type& moves, const int depth_max, in
             return weigth;
         }
 
-        if (board[move->_x][move->_y] != ' ')
-        {
-            std::cout << move->_x << " " << move->_y << " d= " << depth << std::endl;
-        }
         board[move->_x][move->_y] = player;
 
         child_weight = minimax(board, moves, depth_max, depth + 1, move, alpha, beta, player == 'x' ? 'o' : 'x');
@@ -604,7 +600,7 @@ double minimax(board_type board, moves_list_type& moves, const int depth_max, in
             weigth = child_weight;
             alpha = child_weight;
         }
-        else if (weigth > child_weight)
+        else if (player != 'x' && weigth > child_weight)
         {
             weigth = child_weight;
             beta = child_weight;

@@ -162,6 +162,9 @@ void ai::MovesList<width, height>::put_back(Move * move)
 template<int width, int height>
 void ai::MovesList<width, height>::remove(Move * move)
 {
+    if (!move->_valid)
+           return;
+
     if (move->_left)
         move->_left->_right = move->_right;
 
@@ -182,9 +185,6 @@ ai::Move * ai::MovesList<width, height>::remove(int x, int y)
     for (auto i = 0; i < _moves.size(); ++i)
         if (_moves[i]._x == x && _moves[i]._y == y)
         {
-            if (!_moves[i]._valid)
-                return nullptr;
-
             this->remove(&_moves[i]);
             _moves[i]._valid = false;
             return &_moves[i];
