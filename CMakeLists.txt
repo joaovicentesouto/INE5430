@@ -51,7 +51,6 @@ ENDIF(GUI)
 # Add subdirectories
 add_subdirectory(3rdparty)
 add_subdirectory(ai)
-add_subdirectory(apps)
 add_subdirectory(tests)
 
 IF(GUI)
